@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="606.0" prefWidth="1080.0" spacing="20.0" styleClass="anchor" stylesheets="@Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.Scene2Controller">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <Label mnemonicParsing="true" snapToPixel="false" text="Choisir le nombre de heros ">
+      <font>
+         <Font size="21.0" />
+      </font>
+   </Label>
+    <Button fx:id="nbrHero1" onAction="#switchToScene2_1" prefHeight="25.0" prefWidth="28.0" text="1" />
+    <Button onAction="#switchToScene2_2" text="2" />
+   <Button onAction="#switchToScene2_3" text="3" />
+   <Button onAction="#switchToScene2_4" text="4" />
+</VBox>
