@@ -40,6 +40,7 @@ public class Scene4HunterController implements Initializable, Scene4Controller {
         // recup le nom du heros, type de heros et arme du heros
         if (Scene2Controller.getNbrHeroChoisi() == Scene2Controller.nbrHero){
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/battle-view.fxml")));
+
             System.out.println(huntername);
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);

@@ -20,7 +20,10 @@ public class SceneCombat implements Initializable {
     ImageView hero1, hero2, hero3, hero4, ennemy;
 
     @FXML
-    static Label labelEtat;
+    Label labelEtat;
+
+    @FXML
+    Label labelMessage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,7 +49,7 @@ public class SceneCombat implements Initializable {
                     labelEtat.setText(labelEtat.getText() + "Healer : " + lstHero.get(i).getPv() + "/" + (lstHero.get(i)).getPvMax() + "Pv \n" );
                 }
             }
-
+            Game.Round1(lstHero, ennemy, labelEtat,labelMessage);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -54,9 +57,8 @@ public class SceneCombat implements Initializable {
     }
     }
 
-    public static void afficherEtatduJeu(ArrayList <Hero> lstHero, Enemy ennemy){
+    public static void afficherEtatduJeu(ArrayList <Hero> lstHero, Enemy ennemy, Label labelEtat){
         try {
-            labelEtat.setText("");
 
             System.out.println(lstHero);
             for (int i =0; i<lstHero.toArray().length;i++){
