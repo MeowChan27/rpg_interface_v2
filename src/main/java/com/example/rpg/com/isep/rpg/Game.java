@@ -6,7 +6,10 @@ import com.example.rpg.com.isep.rpg.enemies.Dragon;
 import com.example.rpg.com.isep.rpg.enemies.Troll;
 import com.example.rpg.com.isep.rpg.enemies.Tyranosaure;
 import com.example.rpg.controllers.SceneCombat;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
@@ -126,7 +129,7 @@ public abstract class Game {
         return lstEnemy;
     }
 
-    public static void Round1(ArrayList<Hero> allHero, ImageView ennemy, Label labelEtat, Label labelMessage) {
+    public static void Round1(ArrayList<Hero> allHero, ImageView ennemy, Label labelEtat, Label labelMessage, Button btn1, Button btn2, Button btn3, Button btn4) {
 
         // Instance consommable
 
@@ -149,7 +152,8 @@ public abstract class Game {
                 // System.out.println("ROUND " + (e + 1));
                 // recompense
                 if (!(e==0)){
-                    recompense(allHero,lstPain,lstPotion);
+                    labelMessage.setText("Vous avez gagné ce round");
+                    // recompense(allHero,lstPain,lstPotion);
                 }
                 if (e==0) {
                     try {
@@ -183,189 +187,166 @@ public abstract class Game {
                         throw new RuntimeException(ex);
                     }
                 }
+                // OK EN HAUT
+
                 // On continue le combat jusqu'a ce que tous les heros soit mort ou que l'ennemi soit mort
                 while (!(lstEnemy.get(e).getPv() <= 0 || allHero.isEmpty())) {
+                    Enemy enemy = lstEnemy.get(e);
                     // Nombre aléatoire entre 0 et length de (allHero) - 1
                     int n = (int) (Math.random() * allHero.toArray().length);
                     // Troll qui attaque un hero au hasard
                     // Si un heros est en defense
                     // SceneCombat.afficherEtatduJeu(allHero, lstEnemy.get(e));
                     if (allHero.get(n).getDefend()) {
-                        int p = (int) (Math.random()+1);
+                        int p = (int) (Math.random() + 1);
                         if (p == 0) {
-                            lstEnemy.get(e).attaquer(allHero.get(n));
-                            labelMessage.setText("Le heros se défend mais n'a pas pu éviter l'attaque\n L'ennemi inflige " + lstEnemy.get(e).getDegat() + " degats à " + allHero.get(n).getName());
-                        }
-                        else{
+                            enemy.attaquer(allHero.get(n));
+                            labelMessage.setText("Le heros se défend mais n'a pas pu éviter l'attaque\n L'ennemi inflige " + enemy.getDegat() + " degats à " + allHero.get(n).getName());
+                        } else {
                             labelMessage.setText("Le heros se défend et esquive l'attaque de l'ennemi ! ");
                         }
                     }
-                    lstEnemy.get(e).attaquer(allHero.get(n));
+                    enemy.attaquer(allHero.get(n));
 
                     // Parcours des heros
                     for (int i = 0; i < allHero.toArray().length; i++) {
                         Hero leHero = allHero.get(i);
                         // Le hero en question est en vide
-                        if (leHero.getPv() >= 0) {
+                        if (leHero.getPv() > 0) {
+                            while (True){
                             // s'il s'agit d'un warrior
                             if (leHero instanceof Warrior) {
                                 // on affiche ses actions
-                                ((Warrior) leHero).afficherActions();
-                                Scanner scanner = new Scanner(System.in);
-                                int num = scanner.nextInt();
-                                switch (num) {
-                                    case 1 -> {
-                                        // le guerrier attaque
-                                        System.out.println("Le guerrier " + leHero.getName() + " attaque et inflige " + ((Warrior) leHero).damagePoint());
-                                        leHero.attaquer(lstEnemy.get(e));
-                                        lstEnemy.get(e).afficherPointDeVie();
-                                    }
-                                    case 2 -> {
-                                        // message attaque spéciale
-                                        System.out.println("Le guerrier utilise" + leHero.getName() + " attaque spéciale et inflige" + ((Warrior) leHero).damagePointSpe());
-                                        // utilise atk spec
-                                        ((Warrior) leHero).attaqueSpe(lstEnemy.get(e));
-                                        // le hero perd 2 pv quitte à ce qu'il meurt... mais peut soigner avant la fin du round ( :))
+                                btn1.setText("ATTAQUE");
+                                btn1.setOnAction(event -> {
+                                    labelMessage.setText("Le guerrier " + leHero.getName() + " attaque et inflige " + ((Warrior) leHero).damagePoint());
+                                    leHero.attaquer(enemy);
+                                    SceneCombat.afficherEtatduJeu(allHero,enemy,labelEtat);
+
+                                });
+                                btn2.setText("ATTAQUE SPECIALE");
+                                btn2.setOnAction(new EventHandler<ActionEvent>() {
+
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        labelMessage.setText("Le guerrier utilise" + leHero.getName() + " attaque spéciale et inflige" + ((Warrior) leHero).damagePointSpe());
+                                        ((Warrior) leHero).attaqueSpe(enemy);
                                         leHero.setPv(-2);
-                                        // msg pv troll
-                                        lstEnemy.get(e).afficherPointDeVie();
+                                        SceneCombat.afficherEtatduJeu(allHero,enemy,labelEtat);
+
                                     }
-                                    case 3 -> { // le heros se defend message
-                                        System.out.println("Le guerrier " + leHero.getName() + " se défend et réduit les dégats subis de moitié");
+                                });
+                                btn3.setText("DEFENDRE");
+                                btn3.setOnAction(new EventHandler<ActionEvent>() {
+
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        labelMessage.setText("Le guerrier " + leHero.getName() + " se défend et réduit les dégats subis de moitié");
                                         // attribut defend qui passe a true
                                         leHero.setDefend(true);
                                     }
+                                });
 
-                                    case 4 -> {
-                                        // on affiche les consommables
-                                        leHero.afficherConsommable(lstPain, lstPotion);
-                                        Scanner scanner2 = new Scanner(System.in);
-                                        int num2 = scanner2.nextInt();
-                                        switch (num2) {
-                                            case 1 ->{ // si le joueur veut retourner en arriere - on passe a la boucle suivante
-                                                i--;
-                                                continue;
-                                            }
-                                            case 2 -> lstPain.get(-1).mangerGrandPain(leHero, lstPain);
-                                            // le psg mange un grain pain
-                                        }
+                                btn4.setText("PAIN");
+                                btn4.setOnAction(new EventHandler<ActionEvent>() {
+
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        labelMessage.setText("le guerrier mange du pain");
+                                        lstPain.get(lstPain.toArray().length-1).mangerGrandPain(leHero, lstPain, labelMessage);
                                     }
-                                }
+                                });
+
                             }
-                            else if (leHero instanceof Hunter) {
-                                ((Hunter) leHero).afficherActions();
-                                Scanner scanner = new Scanner(System.in);
-                                int num = scanner.nextInt();
+                            if (leHero instanceof Hunter) {
+                                // on affiche ses actions
+                                btn1.setText("ATTAQUE");
+                                btn1.setOnAction(new EventHandler<ActionEvent>() {
 
-                                switch (num) {
-                                    case 1 -> {
-                                        if (((Hunter) leHero).getNbrfleche() >= 1) {
-                                            // Le chasseur attaque l'ennemi, affichage msg et affichage pv ennemi
-                                            System.out.println("Le chasseur " + leHero.getName() + " attaque et inflige " + ((Hunter) leHero).damagePoint());
-                                            leHero.attaquer(lstEnemy.get(e));
-                                            ((Hunter) leHero).setNbrfleche(1);
-                                        } else {
-                                            System.out.println("Le chasseur n'a pas assez de flèches. Merci de saisir une autre action.");
-                                            i--;
-                                            continue;
-
-                                        }
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        labelMessage.setText("Le hunter " + leHero.getName() + " attaque et inflige " + ((Hunter) leHero).damagePoint());
+                                        leHero.attaquer(enemy);
+                                        SceneCombat.afficherEtatduJeu(allHero,enemy,labelEtat);
                                     }
+                                });
+                                btn2.setText("ATTAQUE SPECIALE (2 fleches)");
+                                btn2.setOnAction(new EventHandler<ActionEvent>() {
 
-                                    case 2 -> {
-                                        // Le chasseur utilise une attaque spéciale (coute 2 fleches)
-                                        if (((Hunter) leHero).getNbrfleche() >= 2) {
-                                            System.out.println("Le chasseur " + leHero.getName() + "utilise " + ((Hunter) leHero).damagePointSpe());
-                                            leHero.attaqueSpe(lstEnemy.get(e));
-                                            ((Hunter) leHero).setNbrfleche(2);
-                                        } else {
-                                            System.out.println("Le chasseur n'a pas assez de flèches. Merci de saisir une autre action.");
-                                            i--;
-                                            continue;
-                                        }
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        labelMessage.setText("Le hunter utilise" + leHero.getName() + " attaque spéciale et inflige" + ((Hunter) leHero).damagePointSpe());
+                                        ((Hunter) leHero).attaqueSpe(enemy);
+                                        ((Hunter) leHero).setNbrfleche(1);
+                                        SceneCombat.afficherEtatduJeu(allHero,enemy,labelEtat);
+
                                     }
+                                });
+                                btn3.setText("DEFENDRE");
+                                btn3.setOnAction(new EventHandler<ActionEvent>() {
 
-                                    case 3 -> {
-                                        System.out.println("Le chasseur " + leHero.getName() + " se défend et réduit les dégats subis de moitié");
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        labelMessage.setText("Le hunter " + leHero.getName() + " se défend et réduit les dégats subis de moitié");
                                         // attribut defend qui passe a true
                                         leHero.setDefend(true);
                                     }
+                                });
 
-                                    case 4 -> {
-                                        // on affiche les consommables
-                                        leHero.afficherConsommable(lstPain, lstPotion);
-                                        Scanner scanner2 = new Scanner(System.in);
-                                        int num2 = scanner2.nextInt();
-                                        switch (num2) {
-                                            case 1 ->{// si le joueur veut retourner en arriere - on passe a la boucle suivante
-                                                i--;
-                                                continue;
-                                            }
-                                            case 2 -> lstPain.get(-1).mangerGrandPain(leHero, lstPain);
-                                            // le psg mange un grain pain
-                                        }
+                                btn4.setText("PAIN");
+                                btn4.setOnAction(new EventHandler<ActionEvent>() {
+
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        lstPain.get(lstPain.toArray().length-1).mangerGrandPain(leHero, lstPain, labelMessage);
                                     }
-                                }
-
+                                });
                             }
-                            else if (leHero instanceof Mage) {
-                                ((Mage) leHero).afficherActions();
-                                Scanner scanner = new Scanner(System.in);
-                                int num = scanner.nextInt();
 
-                                switch (num) {
-                                    case 1 -> {
-                                        if (((Mage) leHero).getMana() >= 2) {
-                                            // Le mage attaque l'ennemi, affichage msg
-                                            System.out.println("Le mage " + leHero.getName() + " attaque et inflige " + ((Mage) leHero).damagePoint());
-                                            leHero.attaquer(lstEnemy.get(e));
-                                            System.out.println(((Mage) leHero).getMana());
-                                        } else {
-                                            System.out.println("Le mage n'a pas assez de point de mana. Merci de saisir une autre action.");
-                                            i--;
-                                            continue;
-                                        }
+                            if (leHero instanceof Mage) {
+                                // on affiche ses actions
+                                btn1.setText("ATTAQUE");
+                                btn1.setOnAction(new EventHandler<ActionEvent>() {
+
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        labelMessage.setText("Le mage " + leHero.getName() + " attaque et inflige " + ((Mage) leHero).damagePoint());
+                                        leHero.attaquer(enemy);
+                                        SceneCombat.afficherEtatduJeu(allHero,enemy,labelEtat);
                                     }
+                                });
+                                btn2.setText("ATTAQUE SPECIALE (5 mana)");
+                                btn2.setOnAction(new EventHandler<ActionEvent>() {
 
-                                    case 2 -> {
-                                        // Le mage utilise une attaque spéciale (coute 5 points de mana)
-                                        if (((Mage) leHero).getMana() >= 5) {
-                                            System.out.println("Le mage " + leHero.getName() + "utilise une attaque spéciale et inflige " + ((Mage) leHero).damagePointSpe());
-                                            leHero.attaqueSpe(lstEnemy.get(e));
-                                        }
-                                        else {
-                                            System.out.println("Le mage n'a pas assez de mana. Merci de saisir une autre action.");
-                                            i--;
-                                            continue;
-                                        }
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        labelMessage.setText("Le hunter utilise" + leHero.getName() + " attaque spéciale et inflige" + ((Mage) leHero).damagePointSpe());
+                                        ((Mage) leHero).attaqueSpe(enemy);
+                                        SceneCombat.afficherEtatduJeu(allHero,enemy,labelEtat);
+
                                     }
+                                });
+                                btn3.setText("DEFENDRE");
+                                btn3.setOnAction(new EventHandler<ActionEvent>() {
 
-                                    case 3 -> {
-                                        System.out.println("Le mage " + leHero.getName() + " se défend et réduit les dégats subis de moitié");
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        labelMessage.setText("Le hunter " + leHero.getName() + " se défend et réduit les dégats subis de moitié");
                                         // attribut defend qui passe a true
                                         leHero.setDefend(true);
                                     }
+                                });
 
-                                    case 4 -> {
-                                        // on affiche les consommables
-                                        leHero.afficherConsommable(lstPain, lstPotion);
-                                        Scanner scanner2 = new Scanner(System.in);
-                                        int num2 = scanner2.nextInt();
-                                        switch (num2) {
-                                            case 1 ->{ // si le joueur veut retourner en arriere - on passe a la boucle suivante
-                                                i--;
-                                                continue;
-                                            }
-                                            case 2 -> lstPain.get(-1).mangerGrandPain(leHero, lstPain);
-                                            // le psg mange un grain pain
+                                btn4.setText("PAIN");
+                                btn4.setOnAction(new EventHandler<ActionEvent>() {
 
-                                            case 3 -> lstPotion.get(-1).boireGrandePotion((Mage) leHero, lstPotion);
-                                            // le psg boit une grosse potion
-                                        }
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        lstPotion.get(lstPotion.toArray().length-1).boireGrandePotion((SpellCaster) leHero, lstPotion, labelMessage);
                                     }
-                                }
-
+                                });
                             }
+                            /*
                             else if (leHero instanceof Healer) {
                                 ((Healer) leHero).afficherActions();
                                 Scanner scanner = new Scanner(System.in);
@@ -420,20 +401,20 @@ public abstract class Game {
                                     }
                                 }
                             }
+                            */
+
                             // Etat du jeu
                             SceneCombat.afficherEtatduJeu(allHero, lstEnemy.get(e), labelEtat);
                         }
+                        }
                         else {
-                            System.out.println(leHero.getClass() + " " + leHero.getName() + " est mort ");
-                            allHero.remove(-1);
+                            labelMessage.setText(leHero.getClass() + " " + leHero.getName() + " est mort ");
+                            allHero.remove(allHero.toArray().length-1);
                         }
                     }
             }
             }
         }
-        // VICTOIRE
-        labelMessage.setText("Vous avez gagné ! ");
-
     }
 
     public static void recompense(ArrayList <Hero> allHero, ArrayList <Food> lstFood, ArrayList <Potion> lstPotion){

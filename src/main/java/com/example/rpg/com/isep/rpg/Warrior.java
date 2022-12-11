@@ -1,5 +1,11 @@
 package com.example.rpg.com.isep.rpg;
 
+import com.example.rpg.controllers.SceneCombat;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+
+import static com.example.rpg.controllers.SceneCombat.chargeImage;
+
 public class Warrior extends Hero{
     private int force;
     private Weapon weapon;
@@ -32,16 +38,8 @@ public class Warrior extends Hero{
         combatant.setPv((int)(1.5*(-1*(force + weapon.getAttaque()))));
     }
 
-    public void afficherActions(){
-        System.out.println(
-                """
-                Tour du Warrior : 
-                
-                1. ATTAQUE
-                2. ATTAQUE SPECIALE (Epée divine - Perd 2 points de vie)
-                3. SE DEFENDRE
-                4. OBJETS
-                """);
+    public void afficherActions(ImageView actionWarrior){
+
     }
 
     public int damagePoint(){
