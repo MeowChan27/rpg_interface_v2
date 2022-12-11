@@ -8,4 +8,6 @@ module com.example.rpg {
 
     opens com.example.rpg to javafx.fxml;
     exports com.example.rpg;
+    exports com.example.rpg.controllers;
+    opens com.example.rpg.controllers to javafx.fxml;
 }

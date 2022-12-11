@@ -6,11 +6,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchor" stylesheets="@Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.Scene3Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchor" stylesheets="@../Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.controllers.Scene3Controller">
    <children>
       <ImageView cache="true" fitHeight="175.0" fitWidth="147.0" layoutX="436.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../hero/healer.png" />
+            <Image url="@../hero/healer.png" />
          </image>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
@@ -18,7 +18,7 @@
       </ImageView>
       <ImageView cache="true" fitHeight="202.0" fitWidth="124.0" layoutX="14.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../hero/warrior.png" />
+            <Image url="@../hero/warrior.png" />
          </image>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
@@ -26,7 +26,7 @@
       </ImageView>
       <ImageView cache="true" fitHeight="186.0" fitWidth="119.0" layoutX="310.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../hero/mage.png" />
+            <Image url="@../hero/mage.png" />
          </image>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
@@ -34,7 +34,7 @@
       </ImageView>
       <ImageView cache="true" fitHeight="186.0" fitWidth="156.0" layoutX="130.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../hero/hunter.png" />
+            <Image url="@../hero/hunter.png" />
          </image>
          <cursor>
             <Cursor fx:constant="DEFAULT" />

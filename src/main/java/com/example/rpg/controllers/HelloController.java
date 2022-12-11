@@ -1,4 +1,4 @@
-package com.example.rpg;
+package com.example.rpg.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,20 +22,11 @@ public class HelloController {
     protected void onQuitButtonClick(){ startGame.setText("You have quit the game");}
 
     public void switchToScene1(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("chooseNbrHero-view.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/chooseNbrHero-view.fxml")));
         stage =(Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    public static class Scene4WarriorController {
-        private Stage stage;
-        private Scene scene;
-        private Parent root;
-
-        public void switchToScene4_Warrior(ActionEvent event) throws IOException {
-
-        }
-    }
 }
