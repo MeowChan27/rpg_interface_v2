@@ -1,7 +1,7 @@
 package com.example.rpg.controllers;
 
+
 import com.example.rpg.com.isep.rpg.Game;
-import com.example.rpg.com.isep.rpg.Hero;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
