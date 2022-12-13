@@ -31,6 +31,7 @@ public class SceneCombat implements Initializable {
     Label labelEtat;
 
     @FXML
+    static
     Label labelMessage;
 
     @FXML
@@ -92,8 +93,6 @@ public class SceneCombat implements Initializable {
             ArrayList <Food> lstPain = Game.initPain();
             ArrayList <Potion> lstPotion = Game.initPotion();
             ennemyliste = Game.creationEnemy(lstHero);
-            Game.enemyAttaque(Game.enemyaffronter(ennemyliste), lstHero, labelMessage, labelEtat);
-
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -110,16 +109,20 @@ public class SceneCombat implements Initializable {
         ArrayList <Enemy> lstEnnemy = ennemyliste;
         Enemy enemy = Game.enemyaffronter(lstEnnemy);
         chgtEnnemy(enemy);
+        if (nbHero == 0){
+            Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat);
+            SceneCombat.labelMessage.setText("L'ennemi vous a infligé des degats");
+        }
         labelMessage.setText("  " + lstHero.get(nbHero).getName() + " attaque " + enemy.getName());
         lstHero.get(nbHero).attaquer(enemy);
         if (lstHero.get(nbHero) instanceof Healer){
             healActive = true;
             nbHeroheal = nbHero;
+            labelMessage.setText("Merci de cliquer sur un héros pour le soigner.");
         }
         nbHero += 1;
         afficherEtatduJeu(lstHero, enemy, labelEtat);
         if (nbHero == lstHero.toArray().length){
-            Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat);
             afficherEtatduJeu(lstHero,enemy, labelEtat);
             nbHero = 0;
         }
@@ -154,6 +157,10 @@ public class SceneCombat implements Initializable {
                 }
             }
             labelEtat.setText(labelEtat.getText() + "Ennemy :  : " + ennemy.getPv() + "/" + ennemy.getPvMax() + "Pv \n" );
+            if (lstHero.isEmpty()){
+                // On charge un autre écran
+                SceneCombat.labelMessage.setText("GAME OVER");
+            }
 
 
         } catch (Exception e) {
@@ -266,8 +273,8 @@ public class SceneCombat implements Initializable {
             ArrayList <Hero> lstHero = Scene4MageController.getLstall();
             for (int m = 0; m<lstHero.toArray().length; m++) {
                 if (lstHero.get(m) instanceof Warrior) {
-                    System.out.println("heal le guer");
                     ((Healer) lstHero.get(nbHeroheal)).soinNormal(lstHero, lstHero.get(m));
+                    labelMessage.setText("Vous avez soigné le guerrier ");
                     afficherEtatduJeu(lstHero,Game.enemyaffronter(ennemyliste),labelEtat);
                     }
                 }
@@ -283,9 +290,12 @@ public class SceneCombat implements Initializable {
             for (int m = 0; m<lstHero.toArray().length; m++) {
                 if (lstHero.get(m) instanceof Hunter) {
                         ((Healer) lstHero.get(nbHeroheal)).soinNormal(lstHero, lstHero.get(m));
+                        labelMessage.setText("Vous avez soigné le hunter ");
+                        afficherEtatduJeu(lstHero,Game.enemyaffronter(ennemyliste),labelEtat);
                 }
             }
             nbHero += 1;
+            healActive = false;
         }
 
     }
@@ -295,10 +305,14 @@ public class SceneCombat implements Initializable {
             ArrayList <Hero> lstHero = Scene4MageController.getLstall();
             for (int m = 0; m<lstHero.toArray().length; m++) {
                 if (lstHero.get(m) instanceof Mage) {
-                        ((Healer) lstHero.get(nbHeroheal)).soinNormal(lstHero, lstHero.get(m));
-                    }
+                    ((Healer) lstHero.get(nbHeroheal)).soinNormal(lstHero, lstHero.get(m));
+                    labelMessage.setText("Vous avez soigné le mage ");
+                    afficherEtatduJeu(lstHero,Game.enemyaffronter(ennemyliste),labelEtat);
                 }
+            }
             nbHero += 1;
+            healActive = false;
+
         }
     }
 
@@ -308,14 +322,25 @@ public class SceneCombat implements Initializable {
             ArrayList <Hero> lstHero = Scene4MageController.getLstall();
             for (int m = 0; m<lstHero.toArray().length; m++) {
                 if (lstHero.get(m) instanceof Mage) {
-                        ((Healer) lstHero.get(nbHeroheal)).soinNormal(lstHero, lstHero.get(m));
+                    ((Healer) lstHero.get(nbHeroheal)).soinNormal(lstHero, lstHero.get(m));
+                    labelMessage.setText("Vous avez soigné le pretre ");
+                    afficherEtatduJeu(lstHero,Game.enemyaffronter(ennemyliste),labelEtat);
+
                 }
             }
             nbHero += 1;
+            healActive = false;
         }
     }
 
     public int getnbHero(int nbHero){
         return nbHero;
+    }
+
+    public boolean loose(){
+        if (Scene4MageController.getLstall().isEmpty()){
+            return  true;
+        }
+        return false;
     }
 }
