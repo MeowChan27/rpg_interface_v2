@@ -19,8 +19,6 @@ import java.util.Scanner;
 
 public abstract class Game {
 
-    private static int m;
-
     public static Hero choisirArmeWarrior(String name, String weapon) {
         if (weapon.equals("epee")) {
             Weapon epee = new Weapon("epee", 0, 15, 0, 0);
@@ -108,15 +106,15 @@ public abstract class Game {
                 lstEnemy.add(Troll1);
             }
             if (i == 1) {
-                Dragon Dragon1 = new Dragon("Dragon1", 250, 250, 15);
+                Dragon Dragon1 = new Dragon("Dragon", 250, 250, 15);
                 lstEnemy.add(Dragon1);
             }
             if (i == 2) {
-                Tyranosaure Tyranosaure1 = new Tyranosaure("Tyranosaure1", 400, 400, 25);
+                Tyranosaure Tyranosaure1 = new Tyranosaure("Tyranosaure", 400, 400, 25);
                 lstEnemy.add(Tyranosaure1);
             }
             if (i == 3) {
-                Cerbere Cerbere1 = new Cerbere("Cerbere1", 1000, 1000, 40);
+                Cerbere Cerbere1 = new Cerbere("Cerbere", 1000, 1000, 40);
                 lstEnemy.add(Cerbere1);
             }
         }
@@ -132,12 +130,7 @@ public abstract class Game {
         return null;
     }
 
-    public static void enemyAttaque(Enemy enemy, ArrayList<Hero> allHero, Label labelMessage, Label labelEtat, ImageView ennemies){
-        try {
-            ennemies.setImage(SceneCombat.chargeImage("/com/example/rpg/ennemy/troll.png"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public static void enemyAttaque(Enemy enemy, ArrayList<Hero> allHero, Label labelMessage, Label labelEtat){
         int n = (int) (Math.random() * allHero.toArray().length);
         // Troll qui attaque un hero au hasard
         // Si un heros est en defense
@@ -157,27 +150,6 @@ public abstract class Game {
             if (allHero.get(i).getPv() <= 0){
                 allHero.remove(i);
             }
-        }
-    }
-
-    public static void heroAttaque(Enemy enemy, ArrayList<Hero> allHero, Label labelMessage, Label labelEtat, Button btn1, Button btn2, Button btn3, Button btn4, ArrayList<Food> lstPain){
-        int l = allHero.toArray().length;
-        Hero hero1 = allHero.get(m);
-        if (hero1 instanceof Warrior){
-            SceneCombat.attaqueWarrior(btn1, btn2, btn3, btn4,labelEtat, labelMessage, hero1, enemy, allHero, lstPain);
-            m += 1;
-        }
-        if (hero1 instanceof Hunter){
-            SceneCombat.attaqueWarrior(btn1, btn2, btn3, btn4,labelEtat, labelMessage, hero1, enemy, allHero, lstPain);
-            m += 1;
-        }
-        if (hero1 instanceof Mage){
-            SceneCombat.attaqueWarrior(btn1, btn2, btn3, btn4,labelEtat, labelMessage, hero1, enemy, allHero, lstPain);
-            m += 1;
-        }
-        if (hero1 instanceof Healer){
-            SceneCombat.attaqueWarrior(btn1, btn2, btn3, btn4,labelEtat, labelMessage, hero1, enemy, allHero, lstPain);
-            m += 1;
         }
     }
 

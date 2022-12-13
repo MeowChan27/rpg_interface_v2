@@ -48,15 +48,8 @@ public class Healer extends SpellCaster {
                         """);
     }
 
-    public void soinNormal(ArrayList<Hero> lstHero) {
-        for (int i = 0; i < lstHero.toArray().length; i++) {
-            System.out.println(i + ". " + lstHero.get(i).getClass() + " : " + lstHero.get(i).getName() + " a : " + lstHero.get(i).getPv() + "/" + lstHero.get(i).getPvMax());
-        }
-        System.out.println("Choisir le héros a soigner : ");
-        Scanner scanner = new Scanner(System.in);
-        int num = scanner.nextInt();
-        soigner(lstHero.get(num));
-        System.out.println("Le heros " + lstHero.get(num).getClass() + " : " + lstHero.get(num).getName() + " a été soigne : " + lstHero.get(num).getPv() + "/" + lstHero.get(num).getPvMax());
+    public void soinNormal(ArrayList<Hero> lstHero, Hero hero) {
+        soigner(hero);
         setMana(getMana()-2);
     }
 
