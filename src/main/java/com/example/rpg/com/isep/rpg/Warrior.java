@@ -36,6 +36,7 @@ public class Warrior extends Hero{
     @Override
     public void attaqueSpe(Combatant combatant){
         combatant.setPv((int)(1.5*(-1*(force + weapon.getAttaque()))));
+        setPv(-2);
     }
 
     public void afficherActions(ImageView actionWarrior){

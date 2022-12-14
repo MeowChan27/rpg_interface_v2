@@ -130,11 +130,10 @@ public abstract class Game {
         return null;
     }
 
-    public static void enemyAttaque(Enemy enemy, ArrayList<Hero> allHero, Label labelMessage, Label labelEtat){
+    public static void enemyAttaque(Enemy enemy, ArrayList<Hero> allHero, Label labelMessage, Label labelEtat, ImageView hero1, ImageView hero2, ImageView hero3, ImageView hero4){
         int n = (int) (Math.random() * allHero.toArray().length);
         // Troll qui attaque un hero au hasard
         // Si un heros est en defense
-        // SceneCombat.afficherEtatduJeu(allHero, lstEnemy.get(e));
         if (allHero.get(n).getDefend()) {
             int p = (int) (Math.random() + 1);
             if (p == 0) {
@@ -145,11 +144,39 @@ public abstract class Game {
             }
         }
         enemy.attaquer(allHero.get(n));
-        SceneCombat.afficherEtatduJeu(allHero, enemy,labelEtat);
         for (int i = 0; i<allHero.toArray().length; i++){
             if (allHero.get(i).getPv() <= 0){
+                if (allHero.get(i) instanceof Warrior){
+                    try {
+                        hero1.setImage(SceneCombat.chargeImage("decor/tombe.png"));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if (allHero.get(i) instanceof Hunter){
+                    try {
+                        hero2.setImage(SceneCombat.chargeImage("decor/tombe.png"));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if (allHero.get(i) instanceof Mage){
+                    try {
+                        hero3.setImage(SceneCombat.chargeImage("decor/tombe.png"));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if (allHero.get(i) instanceof Healer){
+                    try {
+                        hero4.setImage(SceneCombat.chargeImage("decor/tombe.png"));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 allHero.remove(i);
             }
+
         }
     }
 

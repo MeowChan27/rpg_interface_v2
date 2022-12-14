@@ -19,15 +19,15 @@
          </children></Pane>
       <Pane layoutX="774.0" layoutY="59.0" prefHeight="135.0" prefWidth="396.0" style="-fx-background-color: white;">
          <children>
-            <Label fx:id="labelMessage" layoutX="-16.0" layoutY="-4.0" prefHeight="135.0" prefWidth="420.0" />
+            <Label fx:id="labelMessage" layoutX="8.0" layoutY="4.0" prefHeight="127.0" prefWidth="382.0" />
          </children>
       </Pane>
       <Label fx:id="actionHero" layoutX="902.0" layoutY="695.0" prefHeight="232.0" prefWidth="430.0" />
       <Button fx:id="btn1" layoutX="191.0" layoutY="856.0" mnemonicParsing="false" onAction="#actionAtk" prefHeight="75.0" prefWidth="208.0" />
+      <Button fx:id="btn2" layoutX="556.0" layoutY="857.0" mnemonicParsing="false" onAction="#actionAtkSpe" prefHeight="75.0" prefWidth="208.0" />
       <Button fx:id="btn5" layoutX="1558.0" layoutY="859.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="208.0" />
       <Button fx:id="btn4" layoutX="1232.0" layoutY="859.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="208.0" />
-      <Button fx:id="btn3" layoutX="887.0" layoutY="859.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="208.0" />
-      <Button fx:id="btn2" layoutX="556.0" layoutY="857.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="208.0" />
+      <Button fx:id="btn3" layoutX="887.0" layoutY="859.0" mnemonicParsing="false" onAction="#actionDefend" prefHeight="75.0" prefWidth="208.0" />
       <ImageView fx:id="tour1" fitHeight="92.0" fitWidth="116.0" layoutX="1492.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" styleClass="anchor">
          <image>
             <Image url="@../../../../../../../../../Pictures/cv__55__generated.jpg" />

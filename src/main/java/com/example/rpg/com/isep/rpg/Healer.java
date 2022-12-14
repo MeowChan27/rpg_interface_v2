@@ -54,13 +54,9 @@ public class Healer extends SpellCaster {
     }
 
     public void soinSpe(ArrayList<Hero> lstHero){
-        for (int i = 0; i < lstHero.toArray().length; i++) {
-            System.out.println(i + ". " + lstHero.get(i).getClass() + " : " + lstHero.get(i).getName() + " a : " + lstHero.get(i).getPv() + "/" + lstHero.get(i).getPvMax());
-        }
         for(int i = 0; i<lstHero.toArray().length; i++){
             soigner(lstHero.get(i));
         }
-        System.out.println("Tous les héros ont été soignés");
         setMana(getMana()-5);
     }
 }
