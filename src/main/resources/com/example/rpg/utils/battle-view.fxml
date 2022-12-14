@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="paneWin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#win" prefHeight="1080.0" prefWidth="1920.0" styleClass="anchor" stylesheets="@../Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.controllers.SceneCombat">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" styleClass="anchor" stylesheets="@../Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.controllers.SceneCombat">
    <children>
       <ImageView fx:id="hero1" fitHeight="279.0" fitWidth="275.0" layoutX="146.0" layoutY="274.0" onMouseClicked="#hero1heal" pickOnBounds="true" preserveRatio="true" styleClass="anchor" />
       <ImageView fx:id="ennemy" fitHeight="324.0" fitWidth="484.0" layoutX="1267.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true" />

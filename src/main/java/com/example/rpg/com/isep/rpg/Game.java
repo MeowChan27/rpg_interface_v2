@@ -285,7 +285,6 @@ public abstract class Game {
                         System.out.println("Vous obtenez 1 pain et 1 potion supplémentaires : vous avez donc " + lstFood.toArray().length + "pains et " + lstPotion.toArray().length + " potions restants");
                     }
                 }
-
             }
         }
     }

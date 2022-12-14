@@ -27,7 +27,6 @@ public class Warrior extends Hero{
     }
 
     // ATTAQUER
-
     @Override
     public void attaquer(Combatant combatant){
         combatant.setPv(-1*(force + weapon.getAttaque()));

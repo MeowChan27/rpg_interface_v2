@@ -15,6 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -42,16 +44,12 @@ public class SceneCombat implements Initializable {
     @FXML
     ImageView tour1, tour2, tour3, tour4;
 
-    @FXML
-    Pane paneWin;
 
     private ArrayList<Enemy> ennemyliste;
 
     private ArrayList<Food> lstPain;
 
     private ArrayList<Potion> lstPotion;
-
-    private boolean win = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -108,14 +106,6 @@ public class SceneCombat implements Initializable {
         }
     }
 
-    public void win(ActionEvent event) throws Exception{
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/win.fxml")));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
     public void testAffichage(ArrayList<Hero> lstHero){
         if (lstHero.get(nbHero) instanceof Hunter) {
             afficherButtonsHunt();
@@ -135,47 +125,52 @@ public class SceneCombat implements Initializable {
     protected int nbHeroheal;
 
     @FXML
-    public void actionAtk(){
+    public void actionAtk(ActionEvent event) throws Exception{
         healActive = false;
         ArrayList <Hero> lstHero = Scene4MageController.getLstall();
         lstHero.get(nbHero).setDefend(false);
         ArrayList <Enemy> lstEnnemy = ennemyliste;
         Enemy enemy = Game.enemyaffronter(lstEnnemy);
         if (enemy == null){
-            labelMessage.setText("Cliquez sur l'écran pour continuez");
-            paneWin.setDisable(false);
-            paneWin.setVisible(true);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/win.fxml")));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
         else {
             chgtEnnemy(enemy);
         }
         if (nbHero == 0){
-            Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat, hero1, hero2, hero3, hero4);
-            labelMessage.setText("L'ennemi vous a infligé des degats");
-        }
-        labelMessage.setText("  " + lstHero.get(nbHero).getName() + " attaque " + enemy.getName());
+            if (enemy != null) {
+                Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat, hero1, hero2, hero3, hero4);
+                labelMessage.setText("L'ennemi vous a infligé des degats");
+                labelMessage.setText("  " + lstHero.get(nbHero).getName() + " attaque " + enemy.getName());
+            }
+            }
         nbHeroheal = nbHero;
-        if (lstHero.get(nbHero) instanceof Healer) {
-            healActive = true;
-            labelMessage.setText("Merci de cliquer sur un héros pour le soigner.");
-        }
-        if (!(lstHero.get(nbHero) instanceof Healer)){
-            lstHero.get(nbHero).attaquer(enemy);
-        }
-        nbHero += 1;
-        afficherEtatduJeu(lstHero, enemy, labelEtat);
-        if (nbHero == lstHero.toArray().length){
-            afficherEtatduJeu(lstHero,enemy, labelEtat);
-            nbHero = 0;
-        }
-        if (!(lstHero.get(nbHeroheal) instanceof Healer)) {
-            testAffichage(lstHero);
+        if (enemy != null){
+            if (lstHero.get(nbHero) instanceof Healer) {
+                healActive = true;
+                labelMessage.setText("Merci de cliquer sur un héros pour le soigner.");
+            }
+            if (!(lstHero.get(nbHero) instanceof Healer)){
+                lstHero.get(nbHero).attaquer(enemy);
+            }
+            nbHero += 1;
+            afficherEtatduJeu(lstHero, enemy, labelEtat);
+            if (nbHero == lstHero.toArray().length){
+                afficherEtatduJeu(lstHero,enemy, labelEtat);
+                nbHero = 0;
+            }
+            if (!(lstHero.get(nbHeroheal) instanceof Healer)) {
+                testAffichage(lstHero);
+            }
         }
     }
 
     @FXML
     public void actionAtkSpe(){
-        System.out.println("hello");
         healActive = false;
         ArrayList <Hero> lstHero = Scene4MageController.getLstall();
         lstHero.get(nbHero).setDefend(false);
