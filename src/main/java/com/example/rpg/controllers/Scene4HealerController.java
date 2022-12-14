@@ -41,7 +41,6 @@ public class Scene4HealerController implements Initializable, Scene4Controller{
         // recup le nom du heros, type de heros et arme du heros
         if (Scene2Controller.getNbrHeroChoisi() == Scene2Controller.nbrHero){
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/battle-view.fxml")));
-            System.out.println(healername);
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -49,14 +48,12 @@ public class Scene4HealerController implements Initializable, Scene4Controller{
         }
         else {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/chooseHero-view.fxml")));
-            System.out.println(healername);
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         }
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

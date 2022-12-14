@@ -3,16 +3,18 @@ package com.example.rpg.controllers;
 import com.example.rpg.HelloApplication;
 import com.example.rpg.com.isep.rpg.*;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.Initializable;
-
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -20,9 +22,10 @@ import java.util.ResourceBundle;
 
 public class SceneCombat implements Initializable {
 
-    private Parent root;
-
     private boolean healActive;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @FXML
     ImageView hero1, hero2, hero3, hero4, ennemy;
@@ -39,12 +42,21 @@ public class SceneCombat implements Initializable {
     @FXML
     ImageView tour1, tour2, tour3, tour4;
 
+    @FXML
+    Pane paneWin;
+
     private ArrayList<Enemy> ennemyliste;
+
+    private ArrayList<Food> lstPain;
+
+    private ArrayList<Potion> lstPotion;
+
+    private boolean win = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            ArrayList<ImageView> lstTour = new ArrayList<ImageView>();
+            ArrayList<ImageView> lstTour = new ArrayList<>();
             lstTour.add(tour1);
             lstTour.add(tour2);
             lstTour.add(tour3);
@@ -85,14 +97,38 @@ public class SceneCombat implements Initializable {
             }
             ennemy.setImage(chargeImage("ennemy/troll.png"));
 
-            ArrayList <Food> lstPain = Game.initPain();
-            ArrayList <Potion> lstPotion = Game.initPotion();
+            lstPain = Game.initPain();
+            lstPotion = Game.initPotion();
             ennemyliste = Game.creationEnemy(lstHero);
             afficherEtatduJeu(lstHero, ennemyliste.get(0),labelEtat);
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
+        }
     }
+
+    public void win(ActionEvent event) throws Exception{
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/win.fxml")));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void testAffichage(ArrayList<Hero> lstHero){
+        if (lstHero.get(nbHero) instanceof Hunter) {
+            afficherButtonsHunt();
+        }
+        if (lstHero.get(nbHero) instanceof Warrior) {
+            afficherButtonsWar();
+        }
+        if (lstHero.get(nbHero) instanceof Healer) {
+            afficherButtonsHealer();
+        }
+        if (lstHero.get(nbHero) instanceof Mage) {
+            afficherButtonsMage();
+        }
     }
 
     protected int nbHero = 0;
@@ -105,17 +141,26 @@ public class SceneCombat implements Initializable {
         lstHero.get(nbHero).setDefend(false);
         ArrayList <Enemy> lstEnnemy = ennemyliste;
         Enemy enemy = Game.enemyaffronter(lstEnnemy);
-        chgtEnnemy(enemy);
+        if (enemy == null){
+            labelMessage.setText("Cliquez sur l'écran pour continuez");
+            paneWin.setDisable(false);
+            paneWin.setVisible(true);
+        }
+        else {
+            chgtEnnemy(enemy);
+        }
         if (nbHero == 0){
             Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat, hero1, hero2, hero3, hero4);
             labelMessage.setText("L'ennemi vous a infligé des degats");
         }
         labelMessage.setText("  " + lstHero.get(nbHero).getName() + " attaque " + enemy.getName());
-        lstHero.get(nbHero).attaquer(enemy);
+        nbHeroheal = nbHero;
         if (lstHero.get(nbHero) instanceof Healer) {
             healActive = true;
-            nbHeroheal = nbHero;
             labelMessage.setText("Merci de cliquer sur un héros pour le soigner.");
+        }
+        if (!(lstHero.get(nbHero) instanceof Healer)){
+            lstHero.get(nbHero).attaquer(enemy);
         }
         nbHero += 1;
         afficherEtatduJeu(lstHero, enemy, labelEtat);
@@ -123,17 +168,8 @@ public class SceneCombat implements Initializable {
             afficherEtatduJeu(lstHero,enemy, labelEtat);
             nbHero = 0;
         }
-        if (lstHero.get(nbHero) instanceof Hunter){
-            afficherButtonsHunt();
-        }
-        if (lstHero.get(nbHero) instanceof  Warrior){
-            afficherButtonsWar();
-        }
-        if (lstHero.get(nbHero) instanceof Healer){
-            afficherButtonsHealer();
-        }
-        if (lstHero.get(nbHero) instanceof Mage){
-            afficherButtonsMage();
+        if (!(lstHero.get(nbHeroheal) instanceof Healer)) {
+            testAffichage(lstHero);
         }
     }
 
@@ -240,8 +276,7 @@ public class SceneCombat implements Initializable {
     }
 
     public static Image chargeImage(String url) throws Exception{
-        Image image = new Image(Objects.requireNonNull(HelloApplication.class.getResource(url)).openStream());
-        return image;
+        return new Image(Objects.requireNonNull(HelloApplication.class.getResource(url)).openStream());
     }
 
     public void afficherButtonsHealer(){
@@ -250,6 +285,8 @@ public class SceneCombat implements Initializable {
         btn3.setText("DEFENDRE");
         btn4.setText("PAIN");
         btn5.setText("POTION");
+        btn5.setVisible(true);
+        btn5.setDisable(false);
     }
 
     public void afficherButtonsMage(){
@@ -258,6 +295,8 @@ public class SceneCombat implements Initializable {
         btn3.setText("DEFENDRE");
         btn4.setText("PAIN");
         btn5.setText("POTION");
+        btn5.setVisible(true);
+        btn5.setDisable(false);
     }
 
     public void afficherButtonsWar(){
@@ -266,6 +305,7 @@ public class SceneCombat implements Initializable {
         btn3.setText("DEFENDRE");
         btn4.setText("PAIN");
         btn5.setVisible(false);
+        btn5.setDisable(true);
     }
 
     public void afficherButtonsHunt(){
@@ -274,6 +314,7 @@ public class SceneCombat implements Initializable {
         btn3.setText("DEFENDRE");
         btn4.setText("PAIN");
         btn5.setVisible(false);
+        btn5.setDisable(true);
     }
 
     protected void chgtEnnemy(Enemy enemy){
@@ -328,7 +369,7 @@ public class SceneCombat implements Initializable {
 
     @FXML
     protected void hero2heal(){
-        if (healActive == true) {
+        if (healActive) {
             ArrayList <Hero> lstHero = Scene4MageController.getLstall();
             for (int m = 0; m<lstHero.toArray().length; m++) {
                 if (lstHero.get(m) instanceof Hunter) {
@@ -338,12 +379,13 @@ public class SceneCombat implements Initializable {
                 }
             }
             healActive = false;
+            testAffichage(lstHero);
         }
 
     }
     @FXML
     protected void hero3heal(){
-        if (healActive == true) {
+        if (healActive) {
             ArrayList <Hero> lstHero = Scene4MageController.getLstall();
             for (int m = 0; m<lstHero.toArray().length; m++) {
                 if (lstHero.get(m) instanceof Mage) {
@@ -353,13 +395,13 @@ public class SceneCombat implements Initializable {
                 }
             }
             healActive = false;
-
+            testAffichage(lstHero);
         }
     }
 
     @FXML
     protected void hero4heal(){
-        if (healActive == true) {
+        if (healActive) {
             ArrayList <Hero> lstHero = Scene4MageController.getLstall();
             for (int m = 0; m<lstHero.toArray().length; m++) {
                 if (lstHero.get(m) instanceof Healer) {
@@ -370,17 +412,74 @@ public class SceneCombat implements Initializable {
                 }
             }
             healActive = false;
+            testAffichage(lstHero);
         }
     }
 
-    public int getnbHero(int nbHero){
-        return nbHero;
+
+    @FXML
+    public void pain(){
+        healActive = false;
+        ArrayList <Hero> lstHero = Scene4MageController.getLstall();
+        ArrayList <Enemy> lstEnnemy = ennemyliste;
+        Enemy enemy = Game.enemyaffronter(lstEnnemy);
+        chgtEnnemy(enemy);
+        if (nbHero == 0){
+            Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat, hero1, hero2, hero3, hero4);
+            labelMessage.setText("L'ennemi vous a infligé des degats");
+        }
+        labelMessage.setText("  " + lstHero.get(nbHero).getName() + " attaque " + enemy.getName());
+        lstPain.get(lstPain.toArray().length-1).mangerGrandPain(lstHero.get(nbHero),lstPain, labelMessage);
+        nbHero += 1;
+        afficherEtatduJeu(lstHero, enemy, labelEtat);
+        if (nbHero == lstHero.toArray().length){
+            afficherEtatduJeu(lstHero,enemy, labelEtat);
+            nbHero = 0;
+        }
+        if (lstHero.get(nbHero) instanceof Hunter){
+            afficherButtonsHunt();
+        }
+        if (lstHero.get(nbHero) instanceof  Warrior){
+            afficherButtonsWar();
+        }
+        if (lstHero.get(nbHero) instanceof Healer){
+            afficherButtonsHealer();
+        }
+        if (lstHero.get(nbHero) instanceof Mage){
+            afficherButtonsMage();
+        }
     }
 
-    public boolean loose(){
-        if (Scene4MageController.getLstall().isEmpty()){
-            return  true;
+    @FXML
+    public void potion(){
+        healActive = false;
+        ArrayList <Hero> lstHero = Scene4MageController.getLstall();
+        ArrayList <Enemy> lstEnnemy = ennemyliste;
+        Enemy enemy = Game.enemyaffronter(lstEnnemy);
+        chgtEnnemy(enemy);
+        if (nbHero == 0){
+            Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat, hero1, hero2, hero3, hero4);
+            labelMessage.setText("L'ennemi vous a infligé des degats");
         }
-        return false;
+        labelMessage.setText("  " + lstHero.get(nbHero).getName() + " attaque " + enemy.getName());
+        lstPotion.get(lstPotion.toArray().length-1).boireGrandePotion((SpellCaster) lstHero.get(nbHero),lstPotion, labelMessage);
+        nbHero += 1;
+        afficherEtatduJeu(lstHero, enemy, labelEtat);
+        if (nbHero == lstHero.toArray().length){
+            afficherEtatduJeu(lstHero,enemy, labelEtat);
+            nbHero = 0;
+        }
+        if (lstHero.get(nbHero) instanceof Hunter){
+            afficherButtonsHunt();
+        }
+        if (lstHero.get(nbHero) instanceof  Warrior){
+            afficherButtonsWar();
+        }
+        if (lstHero.get(nbHero) instanceof Healer){
+            afficherButtonsHealer();
+        }
+        if (lstHero.get(nbHero) instanceof Mage){
+            afficherButtonsMage();
+        }
     }
 }

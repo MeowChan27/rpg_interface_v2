@@ -1,5 +1,6 @@
 package com.example.rpg.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,10 @@ public class HelloController {
     private Scene scene;
     private Parent root;
     @FXML
-    protected void onQuitButtonClick(){ startGame.setText("You have quit the game");}
+    protected void onQuitButtonClick(){
+        Platform.exit();
+
+    }
 
     public void switchToScene1(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/chooseNbrHero-view.fxml")));

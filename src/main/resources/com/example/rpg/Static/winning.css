@@ -1,0 +1,5 @@
+.anchor {
+    -fx-background-image:url("victory.png");
+    -fx-background-repeat: no-repeat no-repeat;
+    -fx-background-size: cover, auto;
+}

@@ -6,15 +6,9 @@ import com.example.rpg.com.isep.rpg.enemies.Dragon;
 import com.example.rpg.com.isep.rpg.enemies.Troll;
 import com.example.rpg.com.isep.rpg.enemies.Tyranosaure;
 import com.example.rpg.controllers.SceneCombat;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.Scanner;
 
 public abstract class Game {

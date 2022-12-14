@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1050.0" prefWidth="1920.0" styleClass="anchor" stylesheets="@../Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.controllers.SceneCombat">
+<Pane fx:id="paneWin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#win" prefHeight="1080.0" prefWidth="1920.0" styleClass="anchor" stylesheets="@../Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.controllers.SceneCombat">
    <children>
       <ImageView fx:id="hero1" fitHeight="279.0" fitWidth="275.0" layoutX="146.0" layoutY="274.0" onMouseClicked="#hero1heal" pickOnBounds="true" preserveRatio="true" styleClass="anchor" />
       <ImageView fx:id="ennemy" fitHeight="324.0" fitWidth="484.0" layoutX="1267.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true" />
@@ -25,25 +25,25 @@
       <Label fx:id="actionHero" layoutX="902.0" layoutY="695.0" prefHeight="232.0" prefWidth="430.0" />
       <Button fx:id="btn1" layoutX="191.0" layoutY="856.0" mnemonicParsing="false" onAction="#actionAtk" prefHeight="75.0" prefWidth="208.0" />
       <Button fx:id="btn2" layoutX="556.0" layoutY="857.0" mnemonicParsing="false" onAction="#actionAtkSpe" prefHeight="75.0" prefWidth="208.0" />
-      <Button fx:id="btn5" layoutX="1558.0" layoutY="859.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="208.0" />
-      <Button fx:id="btn4" layoutX="1232.0" layoutY="859.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="208.0" />
+      <Button fx:id="btn5" layoutX="1558.0" layoutY="859.0" mnemonicParsing="false" onAction="#potion" prefHeight="75.0" prefWidth="208.0" />
+      <Button fx:id="btn4" layoutX="1232.0" layoutY="859.0" mnemonicParsing="false" onAction="#pain" prefHeight="75.0" prefWidth="208.0" />
       <Button fx:id="btn3" layoutX="887.0" layoutY="859.0" mnemonicParsing="false" onAction="#actionDefend" prefHeight="75.0" prefWidth="208.0" />
-      <ImageView fx:id="tour1" fitHeight="92.0" fitWidth="116.0" layoutX="1492.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" styleClass="anchor">
+      <ImageView fx:id="tour1" fitHeight="92.0" fitWidth="116.0" layoutX="1469.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" styleClass="anchor">
          <image>
             <Image url="@../../../../../../../../../Pictures/cv__55__generated.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="tour2" fitHeight="92.0" fitWidth="116.0" layoutX="1584.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" styleClass="anchor">
+      <ImageView fx:id="tour2" fitHeight="92.0" fitWidth="116.0" layoutX="1560.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" styleClass="anchor">
          <image>
             <Image url="@../../../../../../../../../Pictures/cv__55__generated.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="tour3" fitHeight="92.0" fitWidth="116.0" layoutX="1676.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" styleClass="anchor">
+      <ImageView fx:id="tour3" fitHeight="92.0" fitWidth="116.0" layoutX="1651.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" styleClass="anchor">
          <image>
             <Image url="@../../../../../../../../../Pictures/cv__55__generated.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="tour4" fitHeight="92.0" fitWidth="116.0" layoutX="1768.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" styleClass="anchor">
+      <ImageView fx:id="tour4" fitHeight="92.0" fitWidth="116.0" layoutX="1742.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" styleClass="anchor">
          <image>
             <Image url="@../../../../../../../../../Pictures/cv__55__generated.jpg" />
          </image>

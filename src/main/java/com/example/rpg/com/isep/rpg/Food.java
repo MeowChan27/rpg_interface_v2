@@ -20,7 +20,7 @@ public class Food extends Consumable{
     public void mangerGrandPain(Hero hero, ArrayList<Food> lstPain, Label labelMessage)
     {
         if (lstPain.toArray().length > 0) {
-            labelMessage.setText("Le personnage mange un grand pain");
+            labelMessage.setText("Le personnage mange un pain");
             lstPain.remove(lstPain.toArray().length-1);
             if (hero.getPv() < hero.getPvMax() - grandPain) {
                 hero.setPv(grandPain + hero.getPv());
@@ -29,6 +29,9 @@ public class Food extends Consumable{
             } else {
                 hero.setPv(hero.getPv());
             }
+        }
+        else {
+            labelMessage.setText("Vous n'avez pas de pain");
         }
     }
 }
