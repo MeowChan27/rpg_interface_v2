@@ -96,19 +96,19 @@ public abstract class Game {
         ArrayList<Enemy> lstEnemy = new ArrayList<>();
         for (int i = 0; i < allHero.toArray().length; i++) {
             if (i == 0) {
-                Troll Troll1 = new Troll("Troll", 150, 150, 10);
+                Troll Troll1 = new Troll("Polonais", 150, 150, 10);
                 lstEnemy.add(Troll1);
             }
             if (i == 1) {
-                Dragon Dragon1 = new Dragon("Dragon", 250, 250, 15);
+                Dragon Dragon1 = new Dragon("Anglais", 250, 250, 15);
                 lstEnemy.add(Dragon1);
             }
             if (i == 2) {
-                Tyranosaure Tyranosaure1 = new Tyranosaure("Tyranosaure", 400, 400, 25);
+                Tyranosaure Tyranosaure1 = new Tyranosaure("Marocain", 400, 400, 25);
                 lstEnemy.add(Tyranosaure1);
             }
             if (i == 3) {
-                Cerbere Cerbere1 = new Cerbere("Cerbere", 1000, 1000, 40);
+                Cerbere Cerbere1 = new Cerbere("Argentin", 1000, 1000, 40);
                 lstEnemy.add(Cerbere1);
             }
         }
@@ -133,7 +133,8 @@ public abstract class Game {
             if (p == 0) {
                 enemy.attaquer(allHero.get(n));
                 labelMessage.setText("Le heros se défend mais n'a pas pu éviter l'attaque\n L'ennemi inflige " + enemy.getDegat() + " degats à " + allHero.get(n).getName());
-            } else {
+            }
+            else {
                 labelMessage.setText("Le heros se défend et esquive l'attaque de l'ennemi ! ");
             }
         }

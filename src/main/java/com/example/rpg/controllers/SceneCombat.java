@@ -62,7 +62,7 @@ public class SceneCombat implements Initializable {
             ArrayList <Hero> lstHero = Scene4MageController.getLstall();
             for (int i =0; i<lstHero.toArray().length;i++){
                 if (lstHero.get(i) instanceof Warrior){
-                    hero1.setImage(chargeImage("hero/warrior.png"));
+                    hero1.setImage(chargeImage("hero/warrior.gif"));
                     lstTour.get(i).setImage(chargeImage("hero/warrior.png"));
                     if (i==0){
                         afficherButtonsWar();
@@ -140,6 +140,7 @@ public class SceneCombat implements Initializable {
         }
         if (nbHero == 0){
             if (enemy != null) {
+                checkLoose(event, lstHero);
                 Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat, hero1, hero2, hero3, hero4);
                 labelMessage.setText("L'ennemi vous a infligé des degats");
                 labelMessage.setText("  " + lstHero.get(nbHero).getName() + " attaque " + enemy.getName());
@@ -148,11 +149,28 @@ public class SceneCombat implements Initializable {
         nbHeroheal = nbHero;
         if (enemy != null){
             if (lstHero.get(nbHero) instanceof Healer) {
+                if (((Healer) lstHero.get(nbHero)).getMana() >= 2){
                 healActive = true;
                 labelMessage.setText("Merci de cliquer sur un héros pour le soigner.");
+                }
+                else {
+                    labelMessage.setText("Vous n'avez pas assez de mana pour soigner.");
+                    nbHero -= 1;
+                }
             }
             if (!(lstHero.get(nbHero) instanceof Healer)){
-                lstHero.get(nbHero).attaquer(enemy);
+                if (lstHero.get(nbHero) instanceof Mage){
+                    if (((Mage) lstHero.get(nbHero)).getMana() > 3){
+                        lstHero.get(nbHero).attaquer(enemy);
+                    }
+                    else {
+                        labelMessage.setText("Vous n'avez pas assez de mana pour utiliser cette compétence");
+                        nbHero -= 1;
+                    }
+                }
+                if (lstHero.get(nbHero) instanceof Warrior || lstHero.get(nbHero) instanceof Hunter){
+                    lstHero.get(nbHero).attaquer(enemy);
+                }
             }
             nbHero += 1;
             afficherEtatduJeu(lstHero, enemy, labelEtat);
@@ -171,10 +189,11 @@ public class SceneCombat implements Initializable {
                 afficherEtatduJeu(lstHero, enemy2, labelEtat);
             }
         }
+        checkLoose(event, lstHero);
     }
 
     @FXML
-    public void actionAtkSpe(){
+    public void actionAtkSpe(ActionEvent event){
         healActive = false;
         ArrayList <Hero> lstHero = Scene4MageController.getLstall();
         lstHero.get(nbHero).setDefend(false);
@@ -182,14 +201,23 @@ public class SceneCombat implements Initializable {
         Enemy enemy = Game.enemyaffronter(lstEnnemy);
         chgtEnnemy(enemy);
         if (nbHero == 0){
-            Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat, hero1, hero2, hero3, hero4);
-            labelMessage.setText("L'ennemi vous a infligé des degats");
+            if (enemy != null) {
+                checkLoose(event, lstHero);
+                Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat, hero1, hero2, hero3, hero4);
+                labelMessage.setText("L'ennemi vous a infligé des degats");
+            }
         }
         labelMessage.setText("  " + lstHero.get(nbHero).getName() + " utilise une attaque spéciale " + enemy.getName());
         lstHero.get(nbHero).attaqueSpe(enemy);
         if (lstHero.get(nbHero) instanceof Healer) {
-            ((Healer) lstHero.get(nbHero)).soinSpe(lstHero);
-            labelMessage.setText("Tous les alliés ont été soignés");
+            if (((Healer) lstHero.get(nbHero)).getMana() >= 5) {
+                ((Healer) lstHero.get(nbHero)).soinSpe(lstHero);
+                labelMessage.setText("Tous les alliés ont été soignés");
+            }
+            else{
+                labelMessage.setText("Vous n'avez pas assez de mana pour soigner.");
+                nbHero -= 1;
+            }
         }
         nbHero += 1;
         afficherEtatduJeu(lstHero, enemy, labelEtat);
@@ -217,15 +245,18 @@ public class SceneCombat implements Initializable {
     }
 
     @FXML
-    public void actionDefend(){
+    public void actionDefend(ActionEvent event){
         healActive = false;
         ArrayList <Hero> lstHero = Scene4MageController.getLstall();
         ArrayList <Enemy> lstEnnemy = ennemyliste;
         Enemy enemy = Game.enemyaffronter(lstEnnemy);
         chgtEnnemy(enemy);
         if (nbHero == 0){
-            Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat, hero1, hero2, hero3, hero4);
-            labelMessage.setText("L'ennemi vous a infligé des degats");
+            if (enemy != null) {
+                checkLoose(event, lstHero);
+                Game.enemyAttaque(Game.enemyaffronter(lstEnnemy), lstHero, labelMessage, labelEtat, hero1, hero2, hero3, hero4);
+                labelMessage.setText("L'ennemi vous a infligé des degats");
+            }
         }
         labelMessage.setText("  " + lstHero.get(nbHero).getName() + " attaque " + enemy.getName());
         lstHero.get(nbHero).setDefend(true);
@@ -237,35 +268,27 @@ public class SceneCombat implements Initializable {
         }
         if (lstHero.get(nbHero) instanceof Hunter){
             afficherButtonsHunt();
-            tour1.setScaleX(3);
-            tour1.setScaleY(3);
 
         }
         if (lstHero.get(nbHero) instanceof  Warrior){
             afficherButtonsWar();
-            tour2.setScaleX(3);
-            tour2.setScaleY(3);
+
         }
         if (lstHero.get(nbHero) instanceof Healer){
             afficherButtonsHealer();
-            tour3.setScaleX(3);
-            tour3.setScaleY(3);
+
         }
         if (lstHero.get(nbHero) instanceof Mage){
             afficherButtonsMage();
-            tour4.setScaleX(3);
-            tour4.setScaleY(3);
+
         }
         Enemy enemy2 = Game.enemyaffronter(lstEnnemy);
         if (enemy2 != enemy){
             // Recompense
             //
-            //
             chgtEnnemy(enemy2);
             afficherEtatduJeu(lstHero, enemy2, labelEtat);
         }
-
-
     }
 
     public void afficherEtatduJeu(ArrayList <Hero> lstHero, Enemy ennemy, Label labelEtat){
@@ -341,7 +364,7 @@ public class SceneCombat implements Initializable {
     }
 
     protected void chgtEnnemy(Enemy enemy){
-        if ((enemy.getName()).equals("Troll")){
+        if ((enemy.getName()).equals("Polonais")){
             try {
                 ennemy.setImage(chargeImage("ennemy/troll.png"));
             } catch (Exception e) {
@@ -349,21 +372,21 @@ public class SceneCombat implements Initializable {
             }
         }
 
-        if ((enemy.getName()).equals("Dragon")){
+        if ((enemy.getName()).equals("Anglais")){
             try {
                 ennemy.setImage(chargeImage("ennemy/dragon.png"));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
-        if ((enemy.getName()).equals("Tyranosaure")){
+        if ((enemy.getName()).equals("Marocain")){
             try {
                 ennemy.setImage(chargeImage("ennemy/tyranausore.png"));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
-        if ((enemy.getName()).equals("Cerbere")){
+        if ((enemy.getName()).equals("Argentin")){
             try {
                 ennemy.setImage(chargeImage("ennemy/cerbere.png"));
             } catch (Exception e) {
@@ -441,7 +464,7 @@ public class SceneCombat implements Initializable {
 
 
     @FXML
-    public void pain(){
+    public void pain(ActionEvent event){
         healActive = false;
         ArrayList <Hero> lstHero = Scene4MageController.getLstall();
         ArrayList <Enemy> lstEnnemy = ennemyliste;
@@ -471,10 +494,11 @@ public class SceneCombat implements Initializable {
         if (lstHero.get(nbHero) instanceof Mage){
             afficherButtonsMage();
         }
+        checkLoose(event, lstHero);
     }
 
     @FXML
-    public void potion(){
+    public void potion(ActionEvent event){
         healActive = false;
         ArrayList <Hero> lstHero = Scene4MageController.getLstall();
         ArrayList <Enemy> lstEnnemy = ennemyliste;
@@ -504,6 +528,7 @@ public class SceneCombat implements Initializable {
         if (lstHero.get(nbHero) instanceof Mage){
             afficherButtonsMage();
         }
+        checkLoose(event, lstHero);
     }
 
     @FXML
@@ -556,6 +581,21 @@ public class SceneCombat implements Initializable {
                     throw new RuntimeException(e);
                 }
             }
+        }
+    }
+
+    public void checkLoose(ActionEvent event, ArrayList<Hero> lstHero){
+        if (lstHero.isEmpty()){
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/loose.fxml")));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
     }
 }
