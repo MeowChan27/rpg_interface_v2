@@ -252,10 +252,10 @@ public class SceneCombat implements Initializable {
 
                 }
                 if (lstHero.get(i) instanceof Mage){
-                    labelEtat.setText(labelEtat.getText() + "Mage : " + lstHero.get(i).getPv() + "/" + (lstHero.get(i)).getPvMax() + "Pv et " + ((Mage) lstHero.get(i)).getMana() + "/" + ((Mage) lstHero.get(i)).getManaMax() +  "\n" );
+                    labelEtat.setText(labelEtat.getText() + "Mage : " + lstHero.get(i).getPv() + "/" + (lstHero.get(i)).getPvMax() + "Pv et " + ((Mage) lstHero.get(i)).getMana() + "/" + ((Mage) lstHero.get(i)).getManaMax() + "Mana \n" );
                 }
                 if (lstHero.get(i) instanceof Healer){
-                    labelEtat.setText(labelEtat.getText() + "Healer : " + lstHero.get(i).getPv() + "/" + (lstHero.get(i)).getPvMax() + "Pv et " + ((Healer) lstHero.get(i)).getMana() + "/" + ((Healer) lstHero.get(i)).getManaMax() + " \n" );
+                    labelEtat.setText(labelEtat.getText() + "Healer : " + lstHero.get(i).getPv() + "/" + (lstHero.get(i)).getPvMax() + "Pv et " + ((Healer) lstHero.get(i)).getMana() + "/" + ((Healer) lstHero.get(i)).getManaMax() + "Mana \n" );
                 }
             }
             labelEtat.setText(labelEtat.getText() + "Ennemy :  : " + ennemy.getPv() + "/" + ennemy.getPvMax() + "Pv \n" );
@@ -475,6 +475,59 @@ public class SceneCombat implements Initializable {
         }
         if (lstHero.get(nbHero) instanceof Mage){
             afficherButtonsMage();
+        }
+    }
+
+    @FXML
+    public void animhero1(){
+        ArrayList <Hero> lstHero = Scene4MageController.getLstall();
+        for (int i = 0; i<lstHero.toArray().length;i++){
+            if (lstHero.get(i) instanceof Warrior){
+                try {
+                    hero1.setImage(chargeImage("/com/example/rpg/hero/warrior.gif"));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+    @FXML
+    public void animhero2(){
+        ArrayList <Hero> lstHero = Scene4MageController.getLstall();
+        for (int i = 0; i<lstHero.toArray().length;i++){
+            if (lstHero.get(i) instanceof Hunter){
+                try {
+                    hero1.setImage(chargeImage("/com/example/rpg/hero/hunter.gif"));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+    @FXML
+    public void animhero3(){
+        ArrayList <Hero> lstHero = Scene4MageController.getLstall();
+        for (int i = 0; i<lstHero.toArray().length;i++){
+            if (lstHero.get(i) instanceof Mage){
+                try {
+                    hero1.setImage(chargeImage("/com/example/rpg/hero/mage.gif"));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+    @FXML
+    public void animhero4(){
+        ArrayList <Hero> lstHero = Scene4MageController.getLstall();
+        for (int i = 0; i<lstHero.toArray().length;i++){
+            if (lstHero.get(i) instanceof Healer){
+                try {
+                    hero1.setImage(chargeImage("/com/example/rpg/hero/healer.gif"));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 }

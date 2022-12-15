@@ -18,18 +18,22 @@ public class Potion extends Consumable{
     public void boireGrandePotion(SpellCaster spellCaster, ArrayList<Potion> lstPotion, Label labelMessage)
     {
         if (lstPotion.toArray().length > 0) {
-            labelMessage.setText("Le spellcaster boire une potion");
+            labelMessage.setText("Le spellcaster boit une grande potion");
+            System.out.println(spellCaster.getMana());
             lstPotion.remove(lstPotion.toArray().length-1);
-            if (spellCaster.getPv() < spellCaster.getPvMax() - grandePotion) {
-                spellCaster.setPv(grandePotion + spellCaster.getPv());
+            if (spellCaster.getMana() < spellCaster.getManaMax() - grandePotion) {
+                spellCaster.setMana(grandePotion + spellCaster.getMana());
             }
-            else if (spellCaster.getPv() >= spellCaster.getPvMax()) {
-                ;
+            else if (spellCaster.getMana() >= spellCaster.getManaMax()) {
+                spellCaster.setMana(spellCaster.getManaMax());
             }
             else {
-                spellCaster.setPv(spellCaster.getPv());
+                spellCaster.setMana(spellCaster.getManaMax());
             }
         }
+        else {
+            labelMessage.setText("Le spellcaster n'a plus de grande potion");
+        }
+        System.out.println(spellCaster.getMana());
     }
-
 }
