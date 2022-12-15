@@ -47,9 +47,9 @@ public class SceneCombat implements Initializable {
 
     private ArrayList<Enemy> ennemyliste;
 
-    private ArrayList<Food> lstPain;
+    private ArrayList<Food> lstPain = Game.initPain();
 
-    private ArrayList<Potion> lstPotion;
+    private ArrayList<Potion> lstPotion = Game.initPotion();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -94,9 +94,6 @@ public class SceneCombat implements Initializable {
                 }
             }
             ennemy.setImage(chargeImage("ennemy/troll.png"));
-
-            lstPain = Game.initPain();
-            lstPotion = Game.initPotion();
             ennemyliste = Game.creationEnemy(lstHero);
             afficherEtatduJeu(lstHero, ennemyliste.get(0),labelEtat);
 
@@ -167,6 +164,13 @@ public class SceneCombat implements Initializable {
                 testAffichage(lstHero);
             }
         }
+        Enemy enemy2 = Game.enemyaffronter(lstEnnemy);
+        if (enemy != null){
+            if (enemy2 != enemy){
+                chgtEnnemy(enemy2);
+                afficherEtatduJeu(lstHero, enemy2, labelEtat);
+            }
+        }
     }
 
     @FXML
@@ -205,6 +209,11 @@ public class SceneCombat implements Initializable {
         if (lstHero.get(nbHero) instanceof Mage){
             afficherButtonsMage();
         }
+        Enemy enemy2 = Game.enemyaffronter(lstEnnemy);
+        if (enemy2 != enemy){
+            chgtEnnemy(enemy2);
+            afficherEtatduJeu(lstHero, enemy2, labelEtat);
+        }
     }
 
     @FXML
@@ -228,16 +237,35 @@ public class SceneCombat implements Initializable {
         }
         if (lstHero.get(nbHero) instanceof Hunter){
             afficherButtonsHunt();
+            tour1.setScaleX(3);
+            tour1.setScaleY(3);
+
         }
         if (lstHero.get(nbHero) instanceof  Warrior){
             afficherButtonsWar();
+            tour2.setScaleX(3);
+            tour2.setScaleY(3);
         }
         if (lstHero.get(nbHero) instanceof Healer){
             afficherButtonsHealer();
+            tour3.setScaleX(3);
+            tour3.setScaleY(3);
         }
         if (lstHero.get(nbHero) instanceof Mage){
             afficherButtonsMage();
+            tour4.setScaleX(3);
+            tour4.setScaleY(3);
         }
+        Enemy enemy2 = Game.enemyaffronter(lstEnnemy);
+        if (enemy2 != enemy){
+            // Recompense
+            //
+            //
+            chgtEnnemy(enemy2);
+            afficherEtatduJeu(lstHero, enemy2, labelEtat);
+        }
+
+
     }
 
     public void afficherEtatduJeu(ArrayList <Hero> lstHero, Enemy ennemy, Label labelEtat){
@@ -275,21 +303,21 @@ public class SceneCombat implements Initializable {
     }
 
     public void afficherButtonsHealer(){
-        btn1.setText("SOIGNER");
-        btn2.setText("MULTI SOIN");
+        btn1.setText("SOIGNER (3 Mana)");
+        btn2.setText("MULTI SOIN (5 Mana)");
         btn3.setText("DEFENDRE");
-        btn4.setText("PAIN");
-        btn5.setText("POTION");
+        btn4.setText("PAIN " + " (" + lstPain.toArray().length + ") ");
+        btn5.setText("POTION" +  " (" + lstPotion.toArray().length + ") ");
         btn5.setVisible(true);
         btn5.setDisable(false);
     }
 
     public void afficherButtonsMage(){
-        btn1.setText("ATTAQUE");
-        btn2.setText("ATTAQUE SPECIALE");
+        btn1.setText("ATTAQUE (2 Mana)");
+        btn2.setText("ATTAQUE SPECIALE (5 Mana)");
         btn3.setText("DEFENDRE");
-        btn4.setText("PAIN");
-        btn5.setText("POTION");
+        btn4.setText("PAIN " + " (" + lstPain.toArray().length + ") ");
+        btn5.setText("POTION" +  " (" + lstPotion.toArray().length + ") ");
         btn5.setVisible(true);
         btn5.setDisable(false);
     }
@@ -298,7 +326,7 @@ public class SceneCombat implements Initializable {
         btn1.setText("ATTAQUE");
         btn2.setText("ATTAQUE SPECIALE (-2PV)");
         btn3.setText("DEFENDRE");
-        btn4.setText("PAIN");
+        btn4.setText("PAIN " + " (" + lstPain.toArray().length + ") ");
         btn5.setVisible(false);
         btn5.setDisable(true);
     }
@@ -307,7 +335,7 @@ public class SceneCombat implements Initializable {
         btn1.setText("ATTAQUE");
         btn2.setText("ATTAQUE SPECIALE");
         btn3.setText("DEFENDRE");
-        btn4.setText("PAIN");
+        btn4.setText("PAIN " + " (" + lstPain.toArray().length + ") ");
         btn5.setVisible(false);
         btn5.setDisable(true);
     }
