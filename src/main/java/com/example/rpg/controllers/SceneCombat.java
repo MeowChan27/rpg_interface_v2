@@ -73,7 +73,7 @@ public class SceneCombat implements Initializable {
             for (int i =0; i<lstHero.toArray().length;i++){
                 if (lstHero.get(i) instanceof Warrior){
                     hero1.setImage(chargeImage("hero/warrior.gif"));
-                    lstTour.get(i).setImage(chargeImage("hero/warrior.png"));
+                    lstTour.get(i).setImage(chargeImage("hero/warrior.gif"));
                     if (i==0){
                         afficherButtonsWar();
                     }
@@ -87,8 +87,8 @@ public class SceneCombat implements Initializable {
 
                 }
                 if (lstHero.get(i) instanceof Mage){
-                    hero3.setImage(chargeImage("hero/mage.png"));
-                    lstTour.get(i).setImage(chargeImage("hero/mage.png"));
+                    hero3.setImage(chargeImage("hero/mage.gif"));
+                    lstTour.get(i).setImage(chargeImage("hero/mage.gif"));
                     if (i==0){
                         afficherButtonsMage();
                     }

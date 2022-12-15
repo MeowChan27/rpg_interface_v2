@@ -11,9 +11,9 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchor" stylesheets="@../Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.controllers.Scene4MageController">
    <children>
-      <ImageView cache="true" fitHeight="233.0" fitWidth="128.0" layoutX="68.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView cache="true" fitHeight="253.0" fitWidth="194.0" layoutX="39.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../hero/mage.png" />
+            <Image url="@../hero/mage.gif" />
          </image>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
@@ -23,7 +23,7 @@
          <children>
             <Label layoutX="24.0" layoutY="20.0" prefHeight="27.0" prefWidth="43.0" text="NAME" />
             <TextField fx:id="MageName" layoutX="121.0" layoutY="21.0" prefHeight="25.0" prefWidth="99.0" text="ex. Janna" />
-            <Label layoutX="24.0" layoutY="90.0" prefHeight="27.0" prefWidth="55.0" text="WEAPON" />
+            <Label layoutX="24.0" layoutY="90.0" prefHeight="27.0" prefWidth="64.0" text="WEAPON" />
             <ChoiceBox fx:id="MageChoiceBox" layoutX="119.0" layoutY="89.0" prefHeight="25.0" prefWidth="98.0" />
             <Button layoutX="95.0" layoutY="151.0" mnemonicParsing="false" onAction="#validermage" text="Valider" />
          </children>
