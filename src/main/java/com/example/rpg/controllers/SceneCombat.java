@@ -1,5 +1,6 @@
 package com.example.rpg.controllers;
 
+import com.almasb.fxgl.audio.Sound;
 import com.example.rpg.HelloApplication;
 import com.example.rpg.com.isep.rpg.*;
 import javafx.event.ActionEvent;
@@ -14,8 +15,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.scene.media.MediaView;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -44,12 +49,17 @@ public class SceneCombat implements Initializable {
     @FXML
     ImageView tour1, tour2, tour3, tour4;
 
+    private int nbFleche;
 
     private ArrayList<Enemy> ennemyliste;
 
     private ArrayList<Food> lstPain = Game.initPain();
 
     private ArrayList<Potion> lstPotion = Game.initPotion();
+
+    String musicFile = "src/Siu.mp3";
+    Media sound = new Media(new File(musicFile).toURI().toString());
+    MediaPlayer mediaPlayer = new MediaPlayer(sound);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -129,6 +139,7 @@ public class SceneCombat implements Initializable {
         ArrayList <Enemy> lstEnnemy = ennemyliste;
         Enemy enemy = Game.enemyaffronter(lstEnnemy);
         if (enemy == null){
+            mediaPlayer.play();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/win.fxml")));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
@@ -168,8 +179,18 @@ public class SceneCombat implements Initializable {
                         nbHero -= 1;
                     }
                 }
-                if (lstHero.get(nbHero) instanceof Warrior || lstHero.get(nbHero) instanceof Hunter){
+                if (lstHero.get(nbHero) instanceof Warrior){
                     lstHero.get(nbHero).attaquer(enemy);
+                }
+                if (lstHero.get(nbHero) instanceof Hunter){
+                    if (((Hunter) lstHero.get(nbHero)).getNbrfleche()>=1){
+                        lstHero.get(nbHero).attaquer(enemy);
+                        ((Hunter) lstHero.get(nbHero)).setNbrfleche(1);
+                    }
+                    else {
+                        labelMessage.setText("Vous n'avez pas assez de fleches pour utiliser cette compétence");
+                        nbHero -= 1;
+                    }
                 }
             }
             nbHero += 1;
@@ -199,7 +220,22 @@ public class SceneCombat implements Initializable {
         lstHero.get(nbHero).setDefend(false);
         ArrayList <Enemy> lstEnnemy = ennemyliste;
         Enemy enemy = Game.enemyaffronter(lstEnnemy);
-        chgtEnnemy(enemy);
+        if (enemy == null){
+            mediaPlayer.play();
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/win.fxml")));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        else {
+            chgtEnnemy(enemy);
+        }
         if (nbHero == 0){
             if (enemy != null) {
                 checkLoose(event, lstHero);
@@ -208,7 +244,6 @@ public class SceneCombat implements Initializable {
             }
         }
         labelMessage.setText("  " + lstHero.get(nbHero).getName() + " utilise une attaque spéciale " + enemy.getName());
-        lstHero.get(nbHero).attaqueSpe(enemy);
         if (lstHero.get(nbHero) instanceof Healer) {
             if (((Healer) lstHero.get(nbHero)).getMana() >= 5) {
                 ((Healer) lstHero.get(nbHero)).soinSpe(lstHero);
@@ -217,6 +252,30 @@ public class SceneCombat implements Initializable {
             else{
                 labelMessage.setText("Vous n'avez pas assez de mana pour soigner.");
                 nbHero -= 1;
+            }
+        }
+        if (!(lstHero.get(nbHero) instanceof Healer)){
+            if (lstHero.get(nbHero) instanceof Mage){
+                if (((Mage) lstHero.get(nbHero)).getMana() >= 5){
+                    lstHero.get(nbHero).attaquer(enemy);
+                }
+                else {
+                    labelMessage.setText("Vous n'avez pas assez de mana pour utiliser cette compétence");
+                    nbHero -= 1;
+                }
+            }
+            if (lstHero.get(nbHero) instanceof Warrior){
+                lstHero.get(nbHero).attaquer(enemy);
+            }
+            if (lstHero.get(nbHero) instanceof Hunter){
+                if (((Hunter) lstHero.get(nbHero)).getNbrfleche()>=2){
+                    lstHero.get(nbHero).attaquer(enemy);
+                    ((Hunter) lstHero.get(nbHero)).setNbrfleche(2);
+                }
+                else {
+                    labelMessage.setText("Vous n'avez pas assez de fleches pour utiliser cette compétence");
+                    nbHero -= 1;
+                }
             }
         }
         nbHero += 1;
@@ -250,7 +309,22 @@ public class SceneCombat implements Initializable {
         ArrayList <Hero> lstHero = Scene4MageController.getLstall();
         ArrayList <Enemy> lstEnnemy = ennemyliste;
         Enemy enemy = Game.enemyaffronter(lstEnnemy);
-        chgtEnnemy(enemy);
+        if (enemy == null){
+            mediaPlayer.play();
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/rpg/utils/win.fxml")));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        else {
+            chgtEnnemy(enemy);
+        }
         if (nbHero == 0){
             if (enemy != null) {
                 checkLoose(event, lstHero);
@@ -299,7 +373,7 @@ public class SceneCombat implements Initializable {
                     labelEtat.setText(labelEtat.getText() + "Warrior : " + lstHero.get(i).getPv() + "/" + (lstHero.get(i)).getPvMax() + "Pv\n ");
                 }
                 if (lstHero.get(i) instanceof Hunter){
-                    labelEtat.setText(labelEtat.getText() + "Hunter : " + lstHero.get(i).getPv() + "/" + (lstHero.get(i)).getPvMax() + "Pv \n" );
+                    labelEtat.setText(labelEtat.getText() + "Hunter : " + lstHero.get(i).getPv() + "/" + (lstHero.get(i)).getPvMax() + "Pv et " + ((Hunter) lstHero.get(i)).getNbrfleche() + " fleches \n" );
 
                 }
                 if (lstHero.get(i) instanceof Mage){
@@ -355,8 +429,8 @@ public class SceneCombat implements Initializable {
     }
 
     public void afficherButtonsHunt(){
-        btn1.setText("ATTAQUE");
-        btn2.setText("ATTAQUE SPECIALE");
+        btn1.setText("ATTAQUE (-1)" );
+        btn2.setText("ATTAQUE SPECIALE (-2)");
         btn3.setText("DEFENDRE");
         btn4.setText("PAIN " + " (" + lstPain.toArray().length + ") ");
         btn5.setVisible(false);
@@ -410,6 +484,7 @@ public class SceneCombat implements Initializable {
                     }
                 }
             healActive = false;
+            testAffichage(lstHero);
         }
     }
 
