@@ -28,10 +28,10 @@ public abstract class Game {
     public static Hero choisirArmeHunter(String name, String weapon) {
         if (weapon.equals("arc")) {
             Weapon arc = new Weapon("arc", 0, 0, 25, 0);
-            return new Hunter(name, 70, 70, 25, 5, arc, false);
+            return new Hunter(name, 70, 70, 25, 25, arc, false);
         } else if (weapon.equals("grand arc")) {
             Weapon grandArc = new Weapon("grandArc", 0, 0, 40, 0);
-            return new Hunter(name, 70, 70, 25, 5, grandArc, false);
+            return new Hunter(name, 70, 70, 25, 25, grandArc, false);
         } else {
             return null;
         }

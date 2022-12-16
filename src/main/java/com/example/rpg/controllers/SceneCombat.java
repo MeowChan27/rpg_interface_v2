@@ -1,6 +1,6 @@
 package com.example.rpg.controllers;
 
-import com.almasb.fxgl.audio.Sound;
+
 import com.example.rpg.HelloApplication;
 import com.example.rpg.com.isep.rpg.*;
 import javafx.event.ActionEvent;
@@ -14,11 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.scene.media.MediaView;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,8 +29,6 @@ public class SceneCombat implements Initializable {
 
     private boolean healActive;
     private Stage stage;
-    private Scene scene;
-    private Parent root;
 
     @FXML
     ImageView hero1, hero2, hero3, hero4, ennemy;
@@ -48,8 +44,6 @@ public class SceneCombat implements Initializable {
 
     @FXML
     ImageView tour1, tour2, tour3, tour4;
-
-    private int nbFleche;
 
     private ArrayList<Enemy> ennemyliste;
 
@@ -605,7 +599,7 @@ public class SceneCombat implements Initializable {
         }
         checkLoose(event, lstHero);
     }
-
+/*
     @FXML
     public void animhero1(){
         ArrayList <Hero> lstHero = Scene4MageController.getLstall();
@@ -658,7 +652,7 @@ public class SceneCombat implements Initializable {
             }
         }
     }
-
+*/
     public void checkLoose(ActionEvent event, ArrayList<Hero> lstHero){
         if (lstHero.isEmpty()){
             Parent root = null;
