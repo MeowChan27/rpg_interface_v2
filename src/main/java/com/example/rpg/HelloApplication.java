@@ -25,6 +25,5 @@ public class HelloApplication extends Application {
         MediaPlayer mediaPlayerMain = new MediaPlayer(soundMain);
         mediaPlayerMain.play();
         launch();
-
     }
 }
