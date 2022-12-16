@@ -9,9 +9,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchor" stylesheets="@../Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.controllers.Scene4WarriorController">
+<Pane prefHeight="1080.0" prefWidth="1920.0" styleClass="anchor" stylesheets="@../Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.controllers.Scene4WarriorController">
    <children>
-      <ImageView cache="true" fitHeight="267.0" fitWidth="224.0" layoutX="16.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView cache="true" fitHeight="456.0" fitWidth="391.0" layoutX="129.0" layoutY="306.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../hero/warrior.gif" />
          </image>
@@ -19,13 +19,13 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </ImageView>
-      <Pane layoutX="268.0" layoutY="119.0" prefHeight="203.0" prefWidth="291.0" style="-fx-background-color: white;">
+      <Pane layoutX="587.0" layoutY="405.0" prefHeight="312.0" prefWidth="391.0" style="-fx-background-color: white;">
          <children>
             <Label layoutX="24.0" layoutY="20.0" prefHeight="27.0" prefWidth="43.0" text="NAME" />
-            <TextField fx:id="WarriorName" layoutX="121.0" layoutY="21.0" prefHeight="25.0" prefWidth="113.0" text="ex. Ragnarok" />
+            <TextField fx:id="WarriorName" layoutX="121.0" layoutY="21.0" prefHeight="40.0" prefWidth="192.0" text="ex. Ragnarok" />
             <Label layoutX="24.0" layoutY="90.0" prefHeight="27.0" prefWidth="64.0" text="WEAPON" />
-            <ChoiceBox fx:id="WarriorChoiceBox" layoutX="119.0" layoutY="89.0" prefHeight="25.0" prefWidth="119.0" />
-            <Button layoutX="114.0" layoutY="151.0" mnemonicParsing="false" onAction="#validerwarrior" text="Valider" />
+            <ChoiceBox fx:id="WarriorChoiceBox" layoutX="119.0" layoutY="89.0" prefHeight="27.0" prefWidth="192.0" />
+            <Button layoutX="114.0" layoutY="151.0" mnemonicParsing="false" onAction="#validerwarrior" prefHeight="68.0" prefWidth="173.0" text="Valider" />
          </children>
       </Pane>
    </children>

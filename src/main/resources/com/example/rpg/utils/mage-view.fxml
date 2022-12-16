@@ -9,9 +9,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchor" stylesheets="@../Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.controllers.Scene4MageController">
+<Pane prefHeight="1080.0" prefWidth="1920.0" styleClass="anchor" stylesheets="@../Static/application.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rpg.controllers.Scene4MageController">
    <children>
-      <ImageView cache="true" fitHeight="253.0" fitWidth="194.0" layoutX="39.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView cache="true" fitHeight="456.0" fitWidth="446.0" layoutX="125.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../hero/mage.gif" />
          </image>
@@ -19,13 +19,13 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </ImageView>
-      <Pane layoutX="268.0" layoutY="119.0" prefHeight="203.0" prefWidth="248.0" style="-fx-background-color: white;">
+      <Pane layoutX="543.0" layoutY="283.0" prefHeight="310.0" prefWidth="398.0" style="-fx-background-color: white;">
          <children>
             <Label layoutX="24.0" layoutY="20.0" prefHeight="27.0" prefWidth="43.0" text="NAME" />
-            <TextField fx:id="MageName" layoutX="121.0" layoutY="21.0" prefHeight="25.0" prefWidth="99.0" text="ex. Janna" />
+            <TextField fx:id="MageName" layoutX="121.0" layoutY="21.0" prefHeight="40.0" prefWidth="181.0" text="ex. Janna" />
             <Label layoutX="24.0" layoutY="90.0" prefHeight="27.0" prefWidth="64.0" text="WEAPON" />
-            <ChoiceBox fx:id="MageChoiceBox" layoutX="119.0" layoutY="89.0" prefHeight="25.0" prefWidth="98.0" />
-            <Button layoutX="95.0" layoutY="151.0" mnemonicParsing="false" onAction="#validermage" text="Valider" />
+            <ChoiceBox fx:id="MageChoiceBox" layoutX="119.0" layoutY="89.0" prefHeight="27.0" prefWidth="181.0" />
+            <Button layoutX="95.0" layoutY="151.0" mnemonicParsing="false" onAction="#validermage" prefHeight="68.0" prefWidth="200.0" text="Valider" />
          </children>
       </Pane>
    </children>
